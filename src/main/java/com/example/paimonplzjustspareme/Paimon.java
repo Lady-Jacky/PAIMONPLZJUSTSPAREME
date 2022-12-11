@@ -1,13 +1,16 @@
+package com.example.paimonplzjustspareme;
+
 public class Paimon {
-  private int health;
-  private int healthCap;
-  private int strength;
-  private int level;
+  private static int health;
+  private static int healthCap;
+  private static int strength;
+  private static int level;
   private boolean dead;
-  private int xp;
-  private int xpCap;
+  private static int xp;
+  private static int xpCap;
   private int crit = 0;
-  
+
+  private static String text;
 
   public Paimon() {
     health = 25;
@@ -17,6 +20,7 @@ public class Paimon {
     dead = false;
     xpCap = 2;
     xp = 0;
+    text = "";
   }
 
   public int getStrength3() {
@@ -35,19 +39,20 @@ public class Paimon {
     return dead;
   }
 
-  public void slapped(int amount) {
+  public String slapped(int amount) {
     health -= amount;
     if (health <= 0) {
       health = 0;
     }
     if (dead != true) {
-      System.out.println("Paimon takes " + amount + " damage and now has " + (health) + " health");
+      text = "Paimon takes " + amount + " damage and now has " + (health) + " health";
       if (health <= 0) {
         health = 0;
-        System.out.println("Paimon has been slayed!");
+        text = "Paimon has been slayed!";
         dead = true;
       }
     }
+    return text;
   }
 
   public void fullHeal() {
@@ -77,7 +82,7 @@ public class Paimon {
     }
   }
 
-  public String state3() {
+  public static String state3() {
     return ("Paimon: \nStrength = " + strength + "\nHealth = " + health + "/" + healthCap + "\nLevel = " + level
         +"\nXP = " + xp + "/" + xpCap);
   }

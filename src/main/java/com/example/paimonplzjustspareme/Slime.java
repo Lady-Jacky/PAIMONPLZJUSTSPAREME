@@ -1,14 +1,18 @@
+package com.example.paimonplzjustspareme;
+
 public class Slime {
     private static int health;
     private static int strength;
     private static int level;
     private static boolean dead;
+    private static String SlimeisDead;
 
     public Slime() {
         health = 25;
         strength = 1;
         level = 1;
         dead = false;
+        SlimeisDead = "";
     }
 
     public int getStrength2() {
@@ -27,19 +31,20 @@ public class Slime {
         return dead;
     }
 
-    public static void getSlap(int amount) {
+    public static String getSlap(int amount) {
         health -= amount;
         if (health <= 0) {
             health = 0;
         }
         if (dead != true) {
-            System.out.println("The slime takes " + amount + " damage and now has " + (health) + " health");
+            SlimeisDead = "The slime takes " + amount + " damage and now has " + (health) + " health";
             if (health <= 0) {
                 health = 0;
-                System.out.println("The slime has been slayed!");
+                SlimeisDead = "The slime has been slayed!";
                 dead = true;
             }
         }
+        return SlimeisDead;
     }
 
     public static int attack2() {
