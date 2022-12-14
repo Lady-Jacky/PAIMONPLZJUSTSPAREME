@@ -18,7 +18,7 @@
       </ImageView>
       <ImageView fitHeight="198.0" fitWidth="355.0" layoutX="-42.0" layoutY="215.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Pics/PaimonLVL3.png" />
+            <Image url="@../../../PaimonLVL3.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="182.0" fitWidth="226.0" layoutX="407.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">

@@ -19,7 +19,7 @@
       </ImageView>
       <ImageView fitHeight="196.0" fitWidth="351.0" layoutX="-32.0" layoutY="209.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Pics/PaimonLVL3.png" />
+            <Image url="@../../../PaimonLVL3.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="182.0" fitWidth="226.0" layoutX="407.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
@@ -58,7 +58,7 @@
             <Bloom />
          </effect>
       </Button>
-      <Label fx:id="MYLABEL" layoutX="324.0" layoutY="290.0" prefHeight="74.0" prefWidth="252.0">
+      <Label fx:id="MYLABEL" layoutX="324.0" layoutY="290.0" prefHeight="74.0" prefWidth="294.0" text="Click to Continue">
          <font>
             <Font name="Baskerville Old Face" size="15.0" />
          </font>
