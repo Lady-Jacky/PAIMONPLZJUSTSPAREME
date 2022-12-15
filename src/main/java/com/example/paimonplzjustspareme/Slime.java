@@ -49,7 +49,6 @@ public class Slime {
 
     public static int attack2() {
         int dmg = strength * level;
-        System.out.println("The slime attacks for " + dmg + " health points!");
         return dmg;
     }
 

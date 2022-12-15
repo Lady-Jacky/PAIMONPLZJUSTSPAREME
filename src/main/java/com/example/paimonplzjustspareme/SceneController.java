@@ -95,18 +95,34 @@ public class SceneController {
                 slimeLick = slimey.attack2();
                 continua.setVisible(true);
                 continua.setDisable(false);
-                text += "Paimon attacks for " + paiFist + " damage!\n" + slimey.getSlap(paiFist) + "\n";
-                continua.setText(text);
+                    text += "Paimon attacks for " + paiFist + " damage!\n" + slimey.getSlap(paiFist) + "\n";
+                    continua.setText(text);
 
-                text += "\nThe slime attacks for " + paiFist + " damage!\n" + Paimon.slapped(slimeLick) + "\nClick to proceed";
-                continua.setText(text);
+                    text += "\nThe slime attacks for " + paiFist + " damage!\n" + Paimon.slapped(slimeLick) + "\nClick to proceed";
+                    continua.setText(text);
                 continua.setOnAction(new EventHandler<ActionEvent>() {
 
                     public void handle(ActionEvent event) {
                         continua.setVisible(false);
                         continua.setDisable(true);
-                    }
+                        if(slimey.isDead2() == true) {
 
+                            scene = new Scene(mainMenu);
+                            stage.setScene(scene);
+
+                            Group xpGet = new Group();
+                            Scene levels = new Scene(xpGet, 650, 450);
+                            Stage lvlup = new Stage();
+
+                            Text lvlXp = new Text("You've successfully beaten the enemy!\n" + Paimon.LevelUp3(slimey.xpGive()));
+                            xpGet.getChildren().add(lvlXp);
+                            lvlup.setScene(levels);
+                            lvlup.show();
+
+
+                        }
+
+                    }
                 });
             }
         });

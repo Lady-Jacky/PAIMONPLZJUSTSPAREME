@@ -69,16 +69,17 @@ public class Paimon {
     }
   }
 
-  public void LevelUp3(int exp) {
+  public String LevelUp3(int exp) {
     xp += exp;
     if (xp >= xpCap) {
       level++;
-      System.out.println("Paimon has reached leveled up to level " + level + "!\nHealth + 10\nStrength + 1\nXP needed to level up: " + xpCap * 2);
-      System.out.println("------------------------------------------");
       healthCap *= 2;
       strength++;
       xp -= xpCap;
       xpCap *= 2;
+      return "Paimon gained " + exp + " xp!\nPaimon has reached leveled up to level " + level + "!\nHealth + 10\nStrength + 1\nXP needed to level up: " + xpCap * 2;
+    } else {
+      return "Paimon gained " + exp + " xp!";
     }
   }
 
