@@ -9,7 +9,7 @@ public class Slime {
 
     public Slime() {
         health = 25;
-        strength = 1;
+        strength = 2;
         level = 1;
         dead = false;
         SlimeisDead = "";

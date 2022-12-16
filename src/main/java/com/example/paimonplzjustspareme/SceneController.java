@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -97,8 +98,7 @@ public class SceneController {
                 continua.setDisable(false);
                     text += "Paimon attacks for " + paiFist + " damage!\n" + slimey.getSlap(paiFist) + "\n";
                     continua.setText(text);
-
-                    text += "\nThe slime attacks for " + paiFist + " damage!\n" + Paimon.slapped(slimeLick) + "\nClick to proceed";
+                    text += "\nThe slime attacks for " + slimeLick + " damage!\n" + Paimon.slapped(slimeLick) + "\nClick to proceed";
                     continua.setText(text);
                 continua.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -113,13 +113,44 @@ public class SceneController {
                             Group xpGet = new Group();
                             Scene levels = new Scene(xpGet, 650, 450);
                             Stage lvlup = new Stage();
-
-                            Text lvlXp = new Text("You've successfully beaten the enemy!\n" + Paimon.LevelUp3(slimey.xpGive()));
-                            xpGet.getChildren().add(lvlXp);
+                            ImageView win = new ImageView("paimonwins.jpg");
+                            win.setFitHeight(450);
+                            win.setFitWidth(650);
+                            Rectangle rect = new Rectangle();
+                            rect.setWidth(380);
+                            rect.setHeight(210);
+                            rect.setX(160);
+                            rect.setY(70);
+                            rect.setOpacity(.8);
+                            rect.setStyle("-fx-fill: white; -fx-stroke: black; -fx-stroke-width: 3;");
+                            Text lvlXp = new Text("You've successfully beaten the enemy!\n\n" + Paimon.LevelUp3(slimey.xpGive()));
+                            lvlXp.setX(175);
+                            lvlXp.setY(100);
+                            lvlXp.setFont(Font.font("Forte", 20));
+                            xpGet.getChildren().addAll(win, rect, lvlXp);
                             lvlup.setScene(levels);
                             lvlup.show();
-
-
+                        }
+                        if (Paimon.isDead3() == true) {
+                            Group foodmon = new Group();
+                            Scene cooked = new Scene(foodmon, 650, 450);
+                            ImageView lose = new ImageView("Paimoneaten.jpg");
+                            lose.setFitHeight(450);
+                            lose.setFitWidth(650);
+                            Rectangle rect = new Rectangle();
+                            rect.setWidth(475);
+                            rect.setHeight(50);
+                            rect.setX(115);
+                            rect.setY(290);
+                            rect.setStyle("-fx-fill: white; -fx-stroke: black; -fx-stroke-width: 3;");
+                            rect.setOpacity(.8);
+                            Text eaten = new Text("GAME OVER! Paimon dead and shall be cooked! :D");
+                            eaten.setX(125);
+                            eaten.setY(320);
+                            eaten.setFont(Font.font("Forte", 20));
+                            foodmon.getChildren().addAll(lose, rect, eaten);
+                            stage.setScene(cooked);
+                            stage.show();
                         }
 
                     }
@@ -231,13 +262,3 @@ public class SceneController {
 
     }
 }
-
-//                    Group end = new Group();
-//                    Scene endGame = new Scene(end);
-//                    endGame.setFill(Color.BLACK);
-//                    stage.setScene(endGame);
-//                    Text END = new Text("GAME OVER NOOB");
-//                    END.setFont(Font.font("Chiller", 50));
-//                    END.setFill(Color.WHITE);
-//                    end.getChildren().addAll(END);
-//                    stage.show();
