@@ -31,6 +31,7 @@ public class SceneController {
     private Button Fight;
     @FXML
     private Label MYLABEL;
+    private ImageView Paimoned;
     private int paiFist = 0;
     private int slimeLick = 0;
     private int defense = 0;
@@ -43,8 +44,8 @@ public class SceneController {
 
     public void switchToFightChoice(ActionEvent event) throws IOException {
         Parent mainMenu = FXMLLoader.load(getClass().getResource("Fightwho.fxml"));
+        scene = new Scene(mainMenu);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
@@ -67,6 +68,23 @@ public class SceneController {
         continua.setLayoutY(300);
         continua.setVisible(false);
         continua.setDisable(true);
+        if(Paimon.getLevel3() > 0 && Paimon.getLevel3() <= 4)  {
+            Paimoned = new ImageView("Paimonangry.png");
+            Paimoned.setFitWidth(500);
+            Paimoned.setFitHeight(300);
+            Paimoned.setX(-100);
+            Paimoned.setY(200);
+        }
+        if(Paimon.getLevel3() > 4 && Paimon.getLevel3() <= 7 )  {
+            Paimoned = new ImageView("Paimonangry.png");
+        }
+        if(Paimon.getLevel3() > 7 && Paimon.getLevel3()  <= 10)  {
+            Paimoned = new ImageView("PaimonLVL3.png");
+            Paimoned.setFitWidth(500);
+            Paimoned.setFitHeight(300);
+            Paimoned.setX(-100);
+            Paimoned.setY(200);
+        }
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene PaimonvsSlime = new Scene(root, 750, 500);
         ImageView background = new ImageView("Genshingrass.jpg");
@@ -84,7 +102,7 @@ public class SceneController {
         paiStats.setLayoutY(415);
         paiStats.setPrefHeight(50);
         paiStats.setPrefWidth(100);
-        root.getChildren().addAll(background, Fight, paiStats, continua);
+        root.getChildren().addAll(background, Paimoned , Fight, paiStats, continua);
         stage.show();
 
 
@@ -116,17 +134,22 @@ public class SceneController {
                             ImageView win = new ImageView("paimonwins.jpg");
                             win.setFitHeight(450);
                             win.setFitWidth(650);
-                            Rectangle rect = new Rectangle();
-                            rect.setWidth(380);
-                            rect.setHeight(210);
-                            rect.setX(160);
-                            rect.setY(70);
-                            rect.setOpacity(.8);
-                            rect.setStyle("-fx-fill: white; -fx-stroke: black; -fx-stroke-width: 3;");
                             Text lvlXp = new Text("You've successfully beaten the enemy!\n\n" + Paimon.LevelUp3(slimey.xpGive()));
                             lvlXp.setX(175);
                             lvlXp.setY(100);
                             lvlXp.setFont(Font.font("Forte", 20));
+                            Rectangle rect = new Rectangle();
+                            rect.setWidth(380);
+                            if(Paimon.nextLvl() == true) {
+                                rect.setHeight(210);
+                                Paimon.setLevelFalse();
+                            } else {
+                                rect.setHeight(125);
+                            }
+                            rect.setX(160);
+                            rect.setY(70);
+                            rect.setOpacity(.8);
+                            rect.setStyle("-fx-fill: white; -fx-stroke: black; -fx-stroke-width: 3;");
                             xpGet.getChildren().addAll(win, rect, lvlXp);
                             lvlup.setScene(levels);
                             lvlup.show();
@@ -167,7 +190,7 @@ public class SceneController {
                 Image icon = new Image("paimonhand.png");
                 stats.getIcons().add(icon);
                 stats.setTitle("Paimon's Stats");
-                stats.setX(800);
+                stats.setX(780);
                 stats.setY(200);
                 ImageView PaimonHi = new ImageView("paimonhand.png");
                 PaimonHi.setY(0);
@@ -177,7 +200,7 @@ public class SceneController {
                 paimonstat.setX(350);
                 paimonstat.setY(150);
 
-                paimonstat.setFont(Font.font("Chiller", 50));
+                paimonstat.setFont(Font.font("Chiller", 45));
                 root.getChildren().addAll(paimonstat, PaimonHi);
                 stats.setScene(paimonstatus);
                 stats.show();
@@ -211,10 +234,10 @@ public class SceneController {
         PaimonHi.setX(-75);
 
         Text paimonstat = new Text(Paimon.state3());
-        paimonstat.setX(350);
+        paimonstat.setX(340);
         paimonstat.setY(150);
 
-        paimonstat.setFont(Font.font("Chiller", 50));
+        paimonstat.setFont(Font.font("Chiller", 40));
         root.getChildren().addAll(paimonstat, PaimonHi);
         stats.setScene(paimonstatus);
         stats.show();

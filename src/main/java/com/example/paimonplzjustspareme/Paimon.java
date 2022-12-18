@@ -1,26 +1,22 @@
 package com.example.paimonplzjustspareme;
 
 public class Paimon {
-  private static int health;
-  private static int healthCap;
-  private static int strength;
-  private static int level;
-  private boolean dead;
-  private static int xp;
-  private static int xpCap;
-  private int crit = 0;
+  private static int health = 25;
+  private static int healthCap = 25;
+  private static int strength = 2;
+  private static int level = 1;
+  private static boolean dead = false;
+  private static int xp = 0;
+  private static int xpCap = 2;
+  private static int crit = 0;
+  private boolean didlevel = false;
+
 
   private static String text;
 
   public Paimon() {
-    health = 25;
-    healthCap = 25;
-    strength = 2;
-    level = 1;
-    dead = false;
-    xpCap = 2;
-    xp = 0;
     text = "";
+    didlevel = false;
   }
 
   public int getStrength3() {
@@ -39,7 +35,7 @@ public class Paimon {
     return dead;
   }
 
-  public String slapped(int amount) {
+  public static String slapped(int amount) {
     health -= amount;
     if (health <= 0) {
       health = 0;
@@ -58,8 +54,8 @@ public class Paimon {
   public void fullHeal() {
     health = healthCap;
   }
-  public int attack3() {
-    crit = (int) (Math.random() * 6) + 1;
+  public static int attack3() {
+    crit = (int) (Math.random() * 10) + 1;
     if (crit == 4) {
       int dmg = strength * level;
       return dmg * 10;
@@ -69,17 +65,31 @@ public class Paimon {
     }
   }
 
+  public boolean nextLvl() {
+    return didlevel;
+  }
+
+  public void setLevelFalse() {
+    didlevel = false;
+  }
   public String LevelUp3(int exp) {
-    xp += exp;
-    if (xp >= xpCap) {
-      level++;
-      healthCap *= 2;
-      strength++;
-      xp -= xpCap;
-      xpCap *= 2;
-      return "Paimon gained " + exp + " xp!\nPaimon has reached leveled up to level " + level + "!\nHealth + 10\nStrength + 1\nXP needed to level up: " + xpCap * 2;
+    if (level < 10) {
+      xp += exp;
+      if (xp >= xpCap) {
+        level++;
+        healthCap *= 2;
+        strength++;
+        xp -= xpCap;
+        xpCap *= 2;
+        fullHeal();
+        didlevel = true;
+        return "Paimon gained " + exp + " xp!\nPaimon has reached leveled up to level " + level + "!\nHealth + 10\nStrength + 1\nXP needed to level up: " + xpCap * 2;
+      } else {
+        fullHeal();
+        return "Paimon gained " + exp + " xp!";
+      }
     } else {
-      return "Paimon gained " + exp + " xp!";
+      return "Paimon has reached max level.\nShe can no longer gain xp";
     }
   }
 
