@@ -85,6 +85,14 @@ public class SceneController {
             Paimoned.setX(-100);
             Paimoned.setY(200);
         }
+        Rectangle HPrec = new Rectangle(300, 35);
+        HPrec.setX(350);
+        HPrec.setY(300);
+        HPrec.setStyle("-fx-fill: white; -fx-stroke: black; -fx-stroke-width: 1.5;");
+        Text PaiHP = new Text("Paimon    HP: " + Paimon.getHealth3() + "/" + Paimon.getHealthCap());
+        PaiHP.setX(365);
+        PaiHP.setY(325);
+        PaiHP.setFont(Font.font("Bell MT", 25));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene PaimonvsSlime = new Scene(root, 750, 500);
         ImageView background = new ImageView("Genshingrass.jpg");
@@ -102,7 +110,7 @@ public class SceneController {
         paiStats.setLayoutY(415);
         paiStats.setPrefHeight(50);
         paiStats.setPrefWidth(100);
-        root.getChildren().addAll(background, Paimoned , Fight, paiStats, continua);
+        root.getChildren().addAll(background, Paimoned , Fight, paiStats, HPrec, PaiHP, continua);
         stage.show();
 
 
@@ -118,6 +126,7 @@ public class SceneController {
                     continua.setText(text);
                     text += "\nThe slime attacks for " + slimeLick + " damage!\n" + Paimon.slapped(slimeLick) + "\nClick to proceed";
                     continua.setText(text);
+                PaiHP.setText("Paimon    HP: " + Paimon.getHealth3() + "/" + Paimon.getHealthCap());
                 continua.setOnAction(new EventHandler<ActionEvent>() {
 
                     public void handle(ActionEvent event) {

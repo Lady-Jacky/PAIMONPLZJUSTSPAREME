@@ -26,6 +26,7 @@ public class Paimon {
   public int getHealth3() {
     return health;
   }
+  public int getHealthCap() { return healthCap; }
 
   public int getLevel3() {
     return level;
