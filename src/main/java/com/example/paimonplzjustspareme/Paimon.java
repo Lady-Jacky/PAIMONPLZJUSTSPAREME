@@ -78,13 +78,13 @@ public class Paimon {
       xp += exp;
       if (xp >= xpCap) {
         level++;
-        healthCap *= 2;
+        healthCap *= 1.125;
         strength++;
         xp -= xpCap;
         xpCap *= 2;
         fullHeal();
         didlevel = true;
-        return "Paimon gained " + exp + " xp!\nPaimon has reached leveled up to level " + level + "!\nHealth + 10\nStrength + 1\nXP needed to level up: " + xpCap * 2;
+        return "Paimon gained " + exp + " xp!\nPaimon has reached leveled up to level " + level + "!\nHealth + 10\nStrength + 1\nXP needed to level up: " + xpCap;
       } else {
         fullHeal();
         return "Paimon gained " + exp + " xp!";

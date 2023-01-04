@@ -6,13 +6,15 @@ public class Slime {
     private static int level;
     private static boolean dead;
     private static String SlimeisDead;
+    private static int healthCap;
 
     public Slime() {
         health = 25;
-        strength = 1;
+        strength = 2;
         level = 1;
         dead = false;
         SlimeisDead = "";
+        healthCap = 25;
     }
 
     public int getStrength2() {
@@ -53,10 +55,14 @@ public class Slime {
     }
 
     public static String state2() {
-        return ("Slime: \nStrength = " + strength + "\nHealth = " + health + "\nLevel = " + level);
+        return ("Slime: \nStrength = " + strength + "\nHealth = " + health + "/" + healthCap + "\nLevel = " + level);
     }
 
     public int xpGive() {
         return level*2;
+    }
+
+    public int getHealthCap2() {
+        return healthCap;
     }
 }

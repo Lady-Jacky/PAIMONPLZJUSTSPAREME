@@ -63,11 +63,18 @@ public class SceneController {
         Group root = new Group();
         Button continua = new Button();
         continua.setFont(Font.font("Chiller", 20));
-        continua.setPrefSize(350, 175);
+        continua.setPrefSize(350, 150);
         continua.setLayoutX(350);
-        continua.setLayoutY(300);
+        continua.setLayoutY(340);
         continua.setVisible(false);
         continua.setDisable(true);
+        Button slimecont = new Button();
+        slimecont.setFont(Font.font("Chiller", 20));
+        slimecont.setPrefSize(350, 150);
+        slimecont.setLayoutX(350);
+        slimecont.setLayoutY(340);
+        slimecont.setVisible(false);
+        slimecont.setDisable(true);
         if(Paimon.getLevel3() > 0 && Paimon.getLevel3() <= 4)  {
             Paimoned = new ImageView("Paimonangry.png");
             Paimoned.setFitWidth(500);
@@ -85,11 +92,24 @@ public class SceneController {
             Paimoned.setX(-100);
             Paimoned.setY(200);
         }
+        ImageView slime = new ImageView("Slimes-removebg-preview.png");
+        slime.setX(425);
+        slime.setY(0);
+        slime.setFitHeight(300);
+        slime.setFitWidth(300);
+        Rectangle SlimeHPrec = new Rectangle(300, 35);
+        SlimeHPrec.setX(100);
+        SlimeHPrec.setY(50);
+        SlimeHPrec.setStyle("-fx-fill: white; -fx-stroke: black; -fx-stroke-width: 1.5;");
+        Text SlimeHP = new Text("Slime          HP: " + slimey.getHealth2() + "/" + slimey.getHealthCap2());
+        SlimeHP.setX(120);
+        SlimeHP.setY(75);
+        SlimeHP.setFont(Font.font("Bell MT", 25));
         Rectangle HPrec = new Rectangle(300, 35);
         HPrec.setX(350);
         HPrec.setY(300);
         HPrec.setStyle("-fx-fill: white; -fx-stroke: black; -fx-stroke-width: 1.5;");
-        Text PaiHP = new Text("Paimon    HP: " + Paimon.getHealth3() + "/" + Paimon.getHealthCap());
+        Text PaiHP = new Text("Paimon         HP: " + Paimon.getHealth3() + "/" + Paimon.getHealthCap());
         PaiHP.setX(365);
         PaiHP.setY(325);
         PaiHP.setFont(Font.font("Bell MT", 25));
@@ -110,7 +130,12 @@ public class SceneController {
         paiStats.setLayoutY(415);
         paiStats.setPrefHeight(50);
         paiStats.setPrefWidth(100);
-        root.getChildren().addAll(background, Paimoned , Fight, paiStats, HPrec, PaiHP, continua);
+
+        SlimeStats.setLayoutX(475);
+        SlimeStats.setLayoutY(415);
+        SlimeStats.setPrefHeight(50);
+        SlimeStats.setPrefWidth(100);
+        root.getChildren().addAll(background, Paimoned , slime, Fight, paiStats, SlimeStats, HPrec, SlimeHPrec, SlimeHP, PaiHP, continua, slimecont);
         stage.show();
 
 
@@ -118,73 +143,84 @@ public class SceneController {
             @Override
             public void handle(ActionEvent event) {
                 String text = "";
+                String text2 = "";
                 paiFist = Paimon.attack3();
                 slimeLick = slimey.attack2();
                 continua.setVisible(true);
                 continua.setDisable(false);
-                    text += "Paimon attacks for " + paiFist + " damage!\n" + slimey.getSlap(paiFist) + "\n";
+                    text = "Paimon attacks for " + paiFist + " damage!\n" + slimey.getSlap(paiFist) + "\n(Click to proceed)";
                     continua.setText(text);
-                    text += "\nThe slime attacks for " + slimeLick + " damage!\n" + Paimon.slapped(slimeLick) + "\nClick to proceed";
-                    continua.setText(text);
-                PaiHP.setText("Paimon    HP: " + Paimon.getHealth3() + "/" + Paimon.getHealthCap());
+                    text2 = "The slime attacks for " + slimeLick + " damage!\n" + Paimon.slapped(slimeLick) + "\n(Click to proceed)";
+                    slimecont.setText(text2);
                 continua.setOnAction(new EventHandler<ActionEvent>() {
 
                     public void handle(ActionEvent event) {
+                        SlimeHP.setText("Slime          HP: " + slimey.getHealth2() + "/" + slimey.getHealthCap2());
                         continua.setVisible(false);
                         continua.setDisable(true);
-                        if(slimey.isDead2() == true) {
+                        slimecont.setVisible(true);
+                        slimecont.setDisable(false);
 
-                            scene = new Scene(mainMenu);
-                            stage.setScene(scene);
+                        slimecont.setOnAction(new EventHandler<ActionEvent>() {
+                            public void handle(ActionEvent event) {
+                                PaiHP.setText("Paimon         HP: " + Paimon.getHealth3() + "/" + Paimon.getHealthCap());
+                                slimecont.setVisible(false);
+                                slimecont.setDisable(true);
+                                if (slimey.isDead2() == true) {
 
-                            Group xpGet = new Group();
-                            Scene levels = new Scene(xpGet, 650, 450);
-                            Stage lvlup = new Stage();
-                            ImageView win = new ImageView("paimonwins.jpg");
-                            win.setFitHeight(450);
-                            win.setFitWidth(650);
-                            Text lvlXp = new Text("You've successfully beaten the enemy!\n\n" + Paimon.LevelUp3(slimey.xpGive()));
-                            lvlXp.setX(175);
-                            lvlXp.setY(100);
-                            lvlXp.setFont(Font.font("Forte", 20));
-                            Rectangle rect = new Rectangle();
-                            rect.setWidth(380);
-                            if(Paimon.nextLvl() == true) {
-                                rect.setHeight(210);
-                                Paimon.setLevelFalse();
-                            } else {
-                                rect.setHeight(125);
+                                    scene = new Scene(mainMenu);
+                                    stage.setScene(scene);
+
+                                    Group xpGet = new Group();
+                                    Scene levels = new Scene(xpGet, 650, 450);
+                                    Stage lvlup = new Stage();
+                                    ImageView win = new ImageView("paimonwins.jpg");
+                                    win.setFitHeight(450);
+                                    win.setFitWidth(650);
+                                    Text lvlXp = new Text("You've successfully beaten the enemy!\n\n" + Paimon.LevelUp3(slimey.xpGive()));
+                                    lvlXp.setX(175);
+                                    lvlXp.setY(100);
+                                    lvlXp.setFont(Font.font("Forte", 20));
+                                    Rectangle rect = new Rectangle();
+                                    rect.setWidth(380);
+                                    if (Paimon.nextLvl() == true) {
+                                        rect.setHeight(210);
+                                        Paimon.setLevelFalse();
+                                    } else {
+                                        rect.setHeight(125);
+                                    }
+                                    rect.setX(160);
+                                    rect.setY(70);
+                                    rect.setOpacity(.8);
+                                    rect.setStyle("-fx-fill: white; -fx-stroke: black; -fx-stroke-width: 3;");
+                                    xpGet.getChildren().addAll(win, rect, lvlXp);
+                                    lvlup.setScene(levels);
+                                    lvlup.show();
+                                }
+                                if (Paimon.isDead3() == true) {
+                                    Group foodmon = new Group();
+                                    Scene cooked = new Scene(foodmon, 650, 450);
+                                    ImageView lose = new ImageView("Paimoneaten.jpg");
+                                    lose.setFitHeight(450);
+                                    lose.setFitWidth(650);
+                                    Rectangle rect = new Rectangle();
+                                    rect.setWidth(475);
+                                    rect.setHeight(50);
+                                    rect.setX(115);
+                                    rect.setY(290);
+                                    rect.setStyle("-fx-fill: white; -fx-stroke: black; -fx-stroke-width: 3;");
+                                    rect.setOpacity(.8);
+                                    Text eaten = new Text("GAME OVER! Paimon dead and shall be cooked! :D");
+                                    eaten.setX(125);
+                                    eaten.setY(320);
+                                    eaten.setFont(Font.font("Forte", 20));
+                                    foodmon.getChildren().addAll(lose, rect, eaten);
+                                    stage.setScene(cooked);
+                                    stage.show();
+                                }
+
                             }
-                            rect.setX(160);
-                            rect.setY(70);
-                            rect.setOpacity(.8);
-                            rect.setStyle("-fx-fill: white; -fx-stroke: black; -fx-stroke-width: 3;");
-                            xpGet.getChildren().addAll(win, rect, lvlXp);
-                            lvlup.setScene(levels);
-                            lvlup.show();
-                        }
-                        if (Paimon.isDead3() == true) {
-                            Group foodmon = new Group();
-                            Scene cooked = new Scene(foodmon, 650, 450);
-                            ImageView lose = new ImageView("Paimoneaten.jpg");
-                            lose.setFitHeight(450);
-                            lose.setFitWidth(650);
-                            Rectangle rect = new Rectangle();
-                            rect.setWidth(475);
-                            rect.setHeight(50);
-                            rect.setX(115);
-                            rect.setY(290);
-                            rect.setStyle("-fx-fill: white; -fx-stroke: black; -fx-stroke-width: 3;");
-                            rect.setOpacity(.8);
-                            Text eaten = new Text("GAME OVER! Paimon dead and shall be cooked! :D");
-                            eaten.setX(125);
-                            eaten.setY(320);
-                            eaten.setFont(Font.font("Forte", 20));
-                            foodmon.getChildren().addAll(lose, rect, eaten);
-                            stage.setScene(cooked);
-                            stage.show();
-                        }
-
+                        });
                     }
                 });
             }
@@ -212,6 +248,35 @@ public class SceneController {
                 paimonstat.setFont(Font.font("Chiller", 45));
                 root.getChildren().addAll(paimonstat, PaimonHi);
                 stats.setScene(paimonstatus);
+                stats.show();
+            }
+
+        });
+
+        SlimeStats.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                Group root = new Group();
+                Scene slimestatus = new Scene(root, 600, 500, Color.WHITESMOKE);
+                Stage stats = new Stage();
+
+                Image icon = new Image("Slime icon.png");
+                stats.getIcons().add(icon);
+                stats.setTitle("Slime Stats");
+                stats.setX(780);
+                stats.setY(200);
+                ImageView slimed = new ImageView("Slime icon.png");
+                slimed.setFitHeight(325);
+                slimed.setFitWidth(450);
+                slimed.setY(70);
+                slimed.setX(-75);
+
+                Text slimestat = new Text(slimey.state2());
+                slimestat.setX(350);
+                slimestat.setY(175);
+
+                slimestat.setFont(Font.font("Chiller", 45));
+                root.getChildren().addAll(slimestat, slimed);
+                stats.setScene(slimestatus);
                 stats.show();
             }
 
