@@ -7,7 +7,6 @@ public class Slime {
     private static boolean dead;
     private static String SlimeisDead;
     private static int healthCap;
-
     public Slime() {
         health = 25;
         strength = 2;

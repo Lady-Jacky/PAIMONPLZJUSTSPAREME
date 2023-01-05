@@ -37,6 +37,8 @@ public class SceneController {
     private int defense = 0;
     private int dragonAtk = 0;
     private String textslime = ";";
+    private boolean isAttack = false;
+    private boolean isDefend = false;
 
     Dragon Dvalin = new Dragon();
     Slime slimey = new Slime();
@@ -126,6 +128,11 @@ public class SceneController {
         Fight.setPrefHeight(50);
         Fight.setPrefWidth(100);
 
+        block.setLayoutX(475);
+        block.setLayoutY(350);
+        block.setPrefHeight(50);
+        block.setPrefWidth(100);
+
         paiStats.setLayoutX(350);
         paiStats.setLayoutY(415);
         paiStats.setPrefHeight(50);
@@ -135,7 +142,7 @@ public class SceneController {
         SlimeStats.setLayoutY(415);
         SlimeStats.setPrefHeight(50);
         SlimeStats.setPrefWidth(100);
-        root.getChildren().addAll(background, Paimoned , slime, Fight, paiStats, SlimeStats, HPrec, SlimeHPrec, SlimeHP, PaiHP, continua, slimecont);
+        root.getChildren().addAll(background, Paimoned , slime, Fight, block, paiStats, SlimeStats, HPrec, SlimeHPrec, SlimeHP, PaiHP, continua, slimecont);
         stage.show();
 
 
@@ -144,14 +151,27 @@ public class SceneController {
             public void handle(ActionEvent event) {
                 String text = "";
                 String text2 = "";
-                paiFist = Paimon.attack3();
-                slimeLick = slimey.attack2();
-                continua.setVisible(true);
-                continua.setDisable(false);
+
+                    paiFist = Paimon.attack3();
+                    slimeLick = slimey.attack2();
+                    continua.setVisible(true);
+                    continua.setDisable(false);
+                if (Paimon.getHealth3() > 0) {
                     text = "Paimon attacks for " + paiFist + " damage!\n" + slimey.getSlap(paiFist) + "\n(Click to proceed)";
                     continua.setText(text);
+                } else {
+                    text = "(Click to proceed)";
+                    continua.setText(text);
+                }
+                if (slimey.getHealth2() > 0) {
                     text2 = "The slime attacks for " + slimeLick + " damage!\n" + Paimon.slapped(slimeLick) + "\n(Click to proceed)";
                     slimecont.setText(text2);
+                } else {
+                    text2 = "(Click to proceed)";
+                    slimecont.setText(text2);
+                }
+
+
                 continua.setOnAction(new EventHandler<ActionEvent>() {
 
                     public void handle(ActionEvent event) {
@@ -163,11 +183,7 @@ public class SceneController {
 
                         slimecont.setOnAction(new EventHandler<ActionEvent>() {
                             public void handle(ActionEvent event) {
-                                PaiHP.setText("Paimon         HP: " + Paimon.getHealth3() + "/" + Paimon.getHealthCap());
-                                slimecont.setVisible(false);
-                                slimecont.setDisable(true);
-                                if (slimey.isDead2() == true) {
-
+                                if (slimey.isDead2() == true && Paimon.isDead3() == false) {
                                     scene = new Scene(mainMenu);
                                     stage.setScene(scene);
 
@@ -196,8 +212,7 @@ public class SceneController {
                                     xpGet.getChildren().addAll(win, rect, lvlXp);
                                     lvlup.setScene(levels);
                                     lvlup.show();
-                                }
-                                if (Paimon.isDead3() == true) {
+                                } else if (Paimon.isDead3() == true) {
                                     Group foodmon = new Group();
                                     Scene cooked = new Scene(foodmon, 650, 450);
                                     ImageView lose = new ImageView("Paimoneaten.jpg");
@@ -210,7 +225,7 @@ public class SceneController {
                                     rect.setY(290);
                                     rect.setStyle("-fx-fill: white; -fx-stroke: black; -fx-stroke-width: 3;");
                                     rect.setOpacity(.8);
-                                    Text eaten = new Text("GAME OVER! Paimon dead and shall be cooked! :D");
+                                    Text eaten = new Text("GAME OVER! Paimon died and will be eaten! :D");
                                     eaten.setX(125);
                                     eaten.setY(320);
                                     eaten.setFont(Font.font("Forte", 20));
@@ -218,6 +233,9 @@ public class SceneController {
                                     stage.setScene(cooked);
                                     stage.show();
                                 }
+                                PaiHP.setText("Paimon         HP: " + Paimon.getHealth3() + "/" + Paimon.getHealthCap());
+                                slimecont.setVisible(false);
+                                slimecont.setDisable(true);
 
                             }
                         });
@@ -225,6 +243,53 @@ public class SceneController {
                 });
             }
         });
+
+        block.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                String text = "";
+
+                slimeLick = slimey.attack2();
+                continua.setVisible(true);
+                continua.setDisable(false);
+                if(Paimon.defend(slimeLick) == 0) {
+                    slimeLick = 0;
+                    text = "Paimon successfully blocks all incoming licks";
+                } else {
+                    text = "Paimon fails to block fully and\n takes half damage";
+                    Paimon.slapped(slimeLick/2);
+                    PaiHP.setText("Paimon         HP: " + Paimon.getHealth3() + "/" + Paimon.getHealthCap());
+                }
+                    continua.setText(text);
+                    continua.setOnAction(new EventHandler<ActionEvent>() {
+
+                        public void handle(ActionEvent event) {
+                            if (Paimon.isDead3() == true) {
+                                Group foodmon = new Group();
+                                Scene cooked = new Scene(foodmon, 650, 450);
+                                ImageView lose = new ImageView("Paimoneaten.jpg");
+                                lose.setFitHeight(450);
+                                lose.setFitWidth(650);
+                                Rectangle rect = new Rectangle();
+                                rect.setWidth(475);
+                                rect.setHeight(50);
+                                rect.setX(115);
+                                rect.setY(290);
+                                rect.setStyle("-fx-fill: white; -fx-stroke: black; -fx-stroke-width: 3;");
+                                rect.setOpacity(.8);
+                                Text eaten = new Text("GAME OVER! Paimon died and will be eaten! :D");
+                                eaten.setX(125);
+                                eaten.setY(320);
+                                eaten.setFont(Font.font("Forte", 20));
+                                foodmon.getChildren().addAll(lose, rect, eaten);
+                                stage.setScene(cooked);
+                                stage.show();
+                            }
+                            continua.setVisible(false);
+                            continua.setDisable(true);
+                        }
+                    });
+                }
+            });
 
         paiStats.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
