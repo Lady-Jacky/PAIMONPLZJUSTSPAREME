@@ -43,6 +43,7 @@ public class SceneController {
     Dragon Dvalin = new Dragon();
     Slime slimey = new Slime();
     Paimon Paimon = new Paimon();
+    private ImageView slime;
 
     public void switchToFightChoice(ActionEvent event) throws IOException {
         Parent mainMenu = FXMLLoader.load(getClass().getResource("Fightwho.fxml"));
@@ -94,7 +95,7 @@ public class SceneController {
             Paimoned.setX(-100);
             Paimoned.setY(200);
         }
-        ImageView slime = new ImageView("Slimes-removebg-preview.png");
+        slime = new ImageView("Slimes-removebg-preview.png");
         slime.setX(425);
         slime.setY(0);
         slime.setFitHeight(300);
@@ -123,6 +124,7 @@ public class SceneController {
         Button SlimeStats = new Button("Slime's Stats");
         Button Fight = new Button("Fight");
         Button block = new Button("Block");
+        Button warning = new Button();
         Fight.setLayoutX(350);
         Fight.setLayoutY(350);
         Fight.setPrefHeight(50);
@@ -142,7 +144,14 @@ public class SceneController {
         SlimeStats.setLayoutY(415);
         SlimeStats.setPrefHeight(50);
         SlimeStats.setPrefWidth(100);
-        root.getChildren().addAll(background, Paimoned , slime, Fight, block, paiStats, SlimeStats, HPrec, SlimeHPrec, SlimeHP, PaiHP, continua, slimecont);
+
+        warning.setFont(Font.font("Chiller", 25));
+        warning.setPrefSize(350, 150);
+        warning.setLayoutX(350);
+        warning.setLayoutY(340);
+        warning.setVisible(false);
+        warning.setDisable(true);
+        root.getChildren().addAll(background, Paimoned , slime, Fight, block, paiStats, SlimeStats, HPrec, SlimeHPrec, SlimeHP, PaiHP, continua, slimecont, warning);
         stage.show();
 
 
@@ -151,7 +160,6 @@ public class SceneController {
             public void handle(ActionEvent event) {
                 String text = "";
                 String text2 = "";
-
                     paiFist = Paimon.attack3();
                     slimeLick = slimey.attack2();
                     continua.setVisible(true);
@@ -236,7 +244,24 @@ public class SceneController {
                                 PaiHP.setText("Paimon         HP: " + Paimon.getHealth3() + "/" + Paimon.getHealthCap());
                                 slimecont.setVisible(false);
                                 slimecont.setDisable(true);
-
+                                if(Slime.getWhenSuper() == 1) {
+                                    if(Slime.getWhenSuper() == 1) {
+                                        ImageView superSlime = new ImageView("Slimes-removebg-preview(2).png");
+                                        slime.setImage(superSlime.getImage());
+                                    } else {
+                                        ImageView normSlime = new ImageView("Slimes-removebg-preview.png");
+                                        slime.setImage(normSlime.getImage());
+                                    }
+                                    warning.setText("WTF?! The slime looks\nstronger all of a sudden!");
+                                    warning.setDisable(false);
+                                    warning.setVisible(true);
+                                    warning.setOnAction(new EventHandler<ActionEvent>() {
+                                        public void handle(ActionEvent event) {
+                                            warning.setDisable(true);
+                                            warning.setVisible(false);
+                                        }
+                                    });
+                                }
                             }
                         });
                     }
@@ -255,7 +280,7 @@ public class SceneController {
                     slimeLick = 0;
                     text = "Paimon successfully blocks all incoming licks";
                 } else {
-                    text = "Paimon fails to block fully and\n takes half damage";
+                    text = "Paimon fails to block fully and\n takes " + slimeLick/2 + " damage";
                     Paimon.slapped(slimeLick/2);
                     PaiHP.setText("Paimon         HP: " + Paimon.getHealth3() + "/" + Paimon.getHealthCap());
                 }
@@ -286,6 +311,24 @@ public class SceneController {
                             }
                             continua.setVisible(false);
                             continua.setDisable(true);
+                            if(Slime.getWhenSuper() == 1) {
+                                if(Slime.getWhenSuper() == 1) {
+                                    ImageView superSlime = new ImageView("Slimes-removebg-preview(2).png");
+                                    slime.setImage(superSlime.getImage());
+                                } else {
+                                    ImageView normSlime = new ImageView("Slimes-removebg-preview.png");
+                                    slime.setImage(normSlime.getImage());
+                                }
+                                warning.setText("WTF?! The slime looks\nstronger all of a sudden!");
+                                warning.setDisable(false);
+                                warning.setVisible(true);
+                                warning.setOnAction(new EventHandler<ActionEvent>() {
+                                    public void handle(ActionEvent event) {
+                                        warning.setDisable(true);
+                                        warning.setVisible(false);
+                                    }
+                                });
+                            }
                         }
                     });
                 }

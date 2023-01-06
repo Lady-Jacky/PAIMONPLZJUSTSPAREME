@@ -7,6 +7,7 @@ public class Slime {
     private static boolean dead;
     private static String SlimeisDead;
     private static int healthCap;
+    private static int whenSuper;
     public Slime() {
         health = 25;
         strength = 2;
@@ -14,6 +15,7 @@ public class Slime {
         dead = false;
         SlimeisDead = "";
         healthCap = 25;
+        whenSuper = (int)(Math.random() * 10) + 2;
     }
 
     public int getStrength2() {
@@ -31,6 +33,7 @@ public class Slime {
     public static boolean isDead2() {
         return dead;
     }
+    public static int getWhenSuper() { return whenSuper; }
 
     public static String getSlap(int amount) {
         health -= amount;
@@ -50,6 +53,13 @@ public class Slime {
 
     public static int attack2() {
         int dmg = strength * level;
+        if(whenSuper <= 1) {
+            if(whenSuper == 1) {
+                dmg *= 10;
+            }
+            whenSuper = (int)(Math.random() * 10) + 1;
+        }
+        whenSuper--;
         return dmg;
     }
 
