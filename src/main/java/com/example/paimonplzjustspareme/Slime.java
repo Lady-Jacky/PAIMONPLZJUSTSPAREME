@@ -54,9 +54,7 @@ public class Slime {
     public static int attack2() {
         int dmg = strength * level;
         if(whenSuper <= 1) {
-            if(whenSuper == 1) {
-                dmg *= 10;
-            }
+            dmg *= 10;
             whenSuper = (int)(Math.random() * 10) + 1;
         }
         whenSuper--;

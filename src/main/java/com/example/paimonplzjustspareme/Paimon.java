@@ -56,8 +56,8 @@ public class Paimon {
     health = healthCap;
   }
   public static int attack3() {
-    crit = (int) (Math.random() * 12) + 1;
-    if (crit == 4) {
+    crit = (int) (Math.random() * 20) + 1;
+    if (crit == 7) {
       int dmg = strength * level;
       return dmg * 10;
     } else {

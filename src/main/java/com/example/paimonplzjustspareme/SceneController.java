@@ -87,6 +87,10 @@ public class SceneController {
         }
         if(Paimon.getLevel3() > 4 && Paimon.getLevel3() <= 7 )  {
             Paimoned = new ImageView("Paimonangry.png");
+            Paimoned.setFitWidth(500);
+            Paimoned.setFitHeight(300);
+            Paimoned.setX(-100);
+            Paimoned.setY(200);
         }
         if(Paimon.getLevel3() > 7 && Paimon.getLevel3()  <= 10)  {
             Paimoned = new ImageView("PaimonLVL3.png");
@@ -125,12 +129,13 @@ public class SceneController {
         Button Fight = new Button("Fight");
         Button block = new Button("Block");
         Button warning = new Button();
+        Button inventory = new Button("Inventory");
         Fight.setLayoutX(350);
         Fight.setLayoutY(350);
         Fight.setPrefHeight(50);
         Fight.setPrefWidth(100);
 
-        block.setLayoutX(475);
+        block.setLayoutX(465);
         block.setLayoutY(350);
         block.setPrefHeight(50);
         block.setPrefWidth(100);
@@ -140,7 +145,7 @@ public class SceneController {
         paiStats.setPrefHeight(50);
         paiStats.setPrefWidth(100);
 
-        SlimeStats.setLayoutX(475);
+        SlimeStats.setLayoutX(465);
         SlimeStats.setLayoutY(415);
         SlimeStats.setPrefHeight(50);
         SlimeStats.setPrefWidth(100);
@@ -151,9 +156,34 @@ public class SceneController {
         warning.setLayoutY(340);
         warning.setVisible(false);
         warning.setDisable(true);
-        root.getChildren().addAll(background, Paimoned , slime, Fight, block, paiStats, SlimeStats, HPrec, SlimeHPrec, SlimeHP, PaiHP, continua, slimecont, warning);
+
+        inventory.setLayoutX(575);
+        inventory.setLayoutY(350);
+        inventory.setPrefHeight(115);
+        inventory.setPrefWidth(75);
+
+        root.getChildren().addAll(background, Paimoned , slime, Fight, block, paiStats, SlimeStats, HPrec, SlimeHPrec, SlimeHP, PaiHP, inventory, continua, slimecont, warning);
         stage.show();
 
+        inventory.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Group storage = new Group();
+                Scene inve = new Scene(storage, 750, 500);
+                Button usePotion = new Button ("Use");
+                Button back = new Button("Back");
+                storage.getChildren().addAll(usePotion, back);
+                stage.setScene(inve);
+                stage.show();
+
+                back.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        stage.setScene(PaimonvsSlime);
+                    }
+                });
+            }
+        });
 
         Fight.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -192,6 +222,7 @@ public class SceneController {
                         slimecont.setOnAction(new EventHandler<ActionEvent>() {
                             public void handle(ActionEvent event) {
                                 if (slimey.isDead2() == true && Paimon.isDead3() == false) {
+                                    Paimon.fullHeal();
                                     scene = new Scene(mainMenu);
                                     stage.setScene(scene);
 
@@ -248,7 +279,7 @@ public class SceneController {
                                     if(Slime.getWhenSuper() == 1) {
                                         ImageView superSlime = new ImageView("Slimes-removebg-preview(2).png");
                                         slime.setImage(superSlime.getImage());
-                                    } else {
+                                    } else if(Slime.getWhenSuper() > 1) {
                                         ImageView normSlime = new ImageView("Slimes-removebg-preview.png");
                                         slime.setImage(normSlime.getImage());
                                     }
@@ -315,7 +346,8 @@ public class SceneController {
                                 if(Slime.getWhenSuper() == 1) {
                                     ImageView superSlime = new ImageView("Slimes-removebg-preview(2).png");
                                     slime.setImage(superSlime.getImage());
-                                } else {
+                                } else
+                                if(Slime.getWhenSuper() > 1) {
                                     ImageView normSlime = new ImageView("Slimes-removebg-preview.png");
                                     slime.setImage(normSlime.getImage());
                                 }
